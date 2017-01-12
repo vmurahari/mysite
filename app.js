@@ -10,10 +10,10 @@ const chalk = require('chalk');
 const errorHandler = require('errorhandler');
 const lusca = require('lusca');
 const dotenv = require('dotenv');
-const MongoStore = require('connect-mongo')(session);
-const flash = require('express-flash');
+//const MongoStore = require('connect-mongo')(session);
+//const flash = require('express-flash');
 const path = require('path');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
@@ -31,16 +31,13 @@ dotenv.load({ path: '.env.example' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
 const writeController = require('./controllers/write');
-const projectsController = require('./controllers/projects');
-const contactController = require('./controllers/contact');
+const cvController = require('./controllers/cv');
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
+//const passportConfig = require('./config/passport');
 
 /**
  * Create Express server.
@@ -49,14 +46,14 @@ const app = express();
 
 /**
  * Connect to MongoDB.
- */
+
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
 mongoose.connection.on('error', () => {
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
-
+ */
 /**
  * Express configuration.
  */
@@ -73,6 +70,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
+/**
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -82,6 +80,7 @@ app.use(session({
     autoReconnect: true
   })
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -98,9 +97,11 @@ app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
-
+*/
+/**
+After successful login, redirect back to the intended page
 app.use((req, res, next) => {
-  // After successful login, redirect back to the intended page
+
   if (!req.user &&
       req.path !== '/login' &&
       req.path !== '/signup' &&
@@ -113,6 +114,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+*/
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
@@ -120,9 +122,9 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/', homeController.index);
 app.get('/write',writeController.getArticles);
-app.get('/projects',projectsController.getProjects);
-app.get('/contact', contactController.getContact);
-app.post('/contact', contactController.postContact);
+app.get('/cv',cvController.getCV);
+//app.get('/contact', contactController.getContact);
+//app.post('/contact', contactController.postContact);
 
 
 /**
