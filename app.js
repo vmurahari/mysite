@@ -19,9 +19,9 @@ const path = require('path');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
-//const multer = require('multer');
+const multer = require('multer');
 
-//const upload = multer({ dest: path.join(__dirname, 'uploads') });
+const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -64,7 +64,8 @@ app.set('view engine', 'pug');
 app.use(expressStatusMonitor());
 app.use(compression());
 app.use(sass({
-dest: path.join(__dirname, 'public')
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public')
 }));
 
 //app.use(logger('dev'));
