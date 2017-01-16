@@ -26,7 +26,7 @@ const upload = multer({ dest: path.join(__dirname, 'uploads') });
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' });
+//dotenv.load({ path: '.env.example' });
 
 /**
  * Controllers (route handlers).
@@ -68,7 +68,7 @@ app.use(sass({
   dest: path.join(__dirname, 'public')
 }));
 
-//app.use(logger('dev')); removed 
+//app.use(logger('dev')); removed
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
