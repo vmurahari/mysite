@@ -68,7 +68,7 @@ app.use(sass({
   dest: path.join(__dirname, 'public')
 }));
 
-//app.use(logger('dev'));
+//app.use(logger('dev')); removed logger
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
